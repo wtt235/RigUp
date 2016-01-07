@@ -1,44 +1,46 @@
-var tags = require('./tags.js')
+var tags = require('./tags.js');
 
 var AMLTranslator = function() {
     this.translate = function(text){
         var result = "";
         var currentTags = [];
-        for(var i = 0; i < text.length; ++i){
-            if(text[i] === '^'){
-                ++i;
-                var currentTag;
-                if(text[i] === "!"){
-                    ++i;
-                    currentTag = text[i];
-                    var index = currentTags.indexOf(currentTag);
-
-                    /*
-                    We need to close all the currently used tags up until the tag that
-                    corresponds with the tag we're closing
-                     */
-                    for(var a = currentTags.length -1; a >= index; --a){
-                        result += tags[currentTags[a]].closeHtmlTag;
-                    }
-
-                    currentTags.splice(index,1);
-
-                    /*
-                    Now we need to create open tags from all currently used tags that were
-                    inside the tag we just closed
-                    we
-                     */
-                    for(var b = index; b< currentTags.length; ++b){
-                        result += tags[currentTags[b]].openHtmlTag;
-                    }
-                }else if(text[i] in tags){
-                    currentTag = text[i];
-                    result += tags[text[i]].openHtmlTag;
-                    currentTags.push(text[i]);
-                }
-            }else{
-                result += text[i];
+        var left = 0;
+        var right = text.indexOf('^');
+        while (left < text.length){
+            if(right === -1){ // if there are no more tag openers, set right to end of string
+                right = text.length;
             }
+            result += text.substr(left, right - left);
+            if(right < text.length) {
+                ++right;
+                var currentChar = text[right];
+                // check if it's a closing tag
+                if (currentChar === "!") {
+                    ++right;
+                    currentChar = text[right];
+                    var index = currentTags.indexOf(currentChar);
+                    /*
+                     We need to close all the currently used tags up until the tag that
+                     corresponds with the tag we're closing
+                     */
+                    for (var x = currentTags.length - 1; x >= index; --x) {
+                        result += tags[currentTags[x]].closeHtmlTag;
+                    }
+                    currentTags.splice(index, 1);
+                    /*
+                     Now we need to create open tags from all currently used tags that were
+                     inside the tag we just closed
+                     */
+                    for (x = index; x < currentTags.length; ++x) {
+                        result += tags[currentTags[x]].openHtmlTag;
+                    }
+                } else if (currentChar in tags) {
+                    result += tags[currentChar].openHtmlTag;
+                    currentTags.push(text[right]);
+                }
+            }
+            left = right + 1;
+            right = text.indexOf('^', right + 1); // find the next tag opener
         }
         return result;
     };

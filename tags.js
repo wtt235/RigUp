@@ -8,7 +8,12 @@ var Tags =  {
     '~':{
         openHtmlTag: '<em>',
         closeHtmlTag: '</em>'
-    }
+    },
+    /* Uncomment to support html delete translation
+    '$':{
+        openHtmlTag: '<del>',
+        closeHtmlTag: '</del>'
+    }*/
 };
 
 if (module.exports) {

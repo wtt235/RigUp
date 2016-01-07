@@ -16,8 +16,11 @@ var testStrings = [
         "Greetings <STRONG>from <EM>Glornix</EM></STRONG><EM> Beta-Nine</EM>."],
     ["^~Hello, ^%Earth!^!~ We are pleased ^~to^!% meet you.^!~",
         "<em>Hello, <strong>Earth!</strong></em><strong> We are pleased <em>to</em></strong><em> meet you.</em>"],
-    ["Hello, ^%Earth!^!%",
-        "Hello, <strong>Earth!</strong>"]
+    ["Hello, ^%Earth!^!% garbage text%",
+        "Hello, <strong>Earth!</strong> garbage text%"],
+/*  Uncomment to test with new delete tag
+    ["^~Hello, ^%Earth!^!~ We are pleased ^~to ^$^!%meet you.^!$^!~",
+        "<em>Hello, <strong>Earth!</strong></em><strong> We are pleased <em>to <del></del></em></strong><em><del>meet you.</del></em>"],*/
     // Other test strings here.
 ];
 
