@@ -23,4 +23,12 @@ Design
 -------------
 There are two files to the solution: app.js and tags.js.  tags.js defines a collection of ALM tags and their
 corresponding HTML markup.  This can easily be extended to include additional ALM tags.  app.js contains the 
-AMLTranslator object with the translate method, and imports the tag collection from tags.js.
+AMLTranslator object with the translate method, and imports the tag collection from tags.js.  I added a parameter "tags"
+so that a tag collection can be injected into the AMLTranslator object.
+
+
+Possible Improvements
+-------------
+- Use a unit testing framework, such as Jasmine, to manage testing.
+    - Can inject the tag collection.
+- Add AML validation functionality to remove dependency on valid AML being supplied. 
